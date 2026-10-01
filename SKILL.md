@@ -128,6 +128,11 @@ step4 清理：恢复被禁用的任务/服务、删除恢复账户（等确认�
   成功后恢复（注意 `sc config ... start= boot` 可能报 87 错，`start= system` 是可用等价）。
 - **带空格的服务名**：`sc config "AntiCheatExpert Service" start= manual` 会被空格坑，
   用 `Set-Service -Name <名> -StartupType Manual` 代替。
+- **卸载信息键与文件关联**（迁移后一两天才爆的暗雷）：`HKCU\...\Uninstall\<GUID>_is1` 的
+  `InstallLocation/UninstallString/DisplayIcon`、`HKCU\Software\Classes\Applications\<app>\` 的
+  图标与 command、`MuiCache`——这些残留不会让系统报错，但**软件自更新时**会按旧路径重装，
+  弹"安装程序不能创建目录 C:\Users\<旧名>，错误 5：拒绝访问"。更新器每检查一次就弹一次。
+  症状与迁移的关联极其隐蔽，排查入口：弹窗里出现旧路径 + Temp 里有滞留的 `CodeSetup-*.exe`。
 
 ## 5. 验证清单（scripts/step3_verify.ps1）
 

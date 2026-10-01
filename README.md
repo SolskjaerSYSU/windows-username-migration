@@ -55,6 +55,10 @@
 - 计划任务的 Principal 有的存名字有的存 SID，迁移后恢复任务时两种都得筛。
 - 带空格的服务名，`sc config "xxx" start= manual` 会翻车，用 `Set-Service`。
 - 下载 Sysinternals 工具卡在证书校验时，`curl --ssl-no-revoke` 能救急。
+- 迁移完一两天，VS Code 更新时弹出"安装程序不能创建目录 C:\Users\旧用户名"？
+  是注册表卸载键（`Uninstall\..._is1` 的 InstallLocation）和文件关联
+  （`Classes\Applications`）里的旧路径在作祟——软件自更新会按旧路径重装。
+  这类键在 NTUSER.DAT 之外，常规迁移教程都会漏掉。
 
 ## 回滚
 
