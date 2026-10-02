@@ -128,6 +128,10 @@ step4 清理：恢复被禁用的任务/服务、删除恢复账户（等确认�
   成功后恢复（注意 `sc config ... start= boot` 可能报 87 错，`start= system` 是可用等价）。
 - **带空格的服务名**：`sc config "AntiCheatExpert Service" start= manual` 会被空格坑，
   用 `Set-Service -Name <名> -StartupType Manual` 代替。
+- **按用户安装的字体**（HKCU `...\CurrentVersion\Fonts` 里存**绝对路径**的条目）：迁移后指向旧目录，
+  但字体文件本体是随目录一起搬走的——把注册值改指新位置并广播 `WM_FONTCHANGE` 即可，无需重装。
+  症状很隐蔽：编辑器/终端字体"变斜体、发虚、有颗粒感"（系统静默回退到默认字体）。
+  全程 HKCU，不需要管理员。脚本见 `scripts/fonts_fix.ps1`。
 - **卸载信息键与文件关联**（迁移后一两天才爆的暗雷）：`HKCU\...\Uninstall\<GUID>_is1` 的
   `InstallLocation/UninstallString/DisplayIcon`、`HKCU\Software\Classes\Applications\<app>\` 的
   图标与 command、`MuiCache`——这些残留不会让系统报错，但**软件自更新时**会按旧路径重装，
